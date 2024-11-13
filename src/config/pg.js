@@ -7,4 +7,13 @@ const pg = new Client({
     database: 'postgres',
   });
 
-module.exports = pg
+pg.connect()
+
+async function getCoordinates() {
+    const query = 'SELECT longitude, latitude FROM hotels'
+    const result = await pg.query(query)
+    return result.rows
+  }
+
+module.exports = {getCoordinates}
+

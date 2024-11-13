@@ -11,3 +11,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.control.zoom({
     position: 'bottomright' // Vị trí dưới cùng bên phải
 }).addTo(map);
+
+fetch('/api')
+    .then(res =>{
+        return res.json()
+    })
+    .then(data =>{
+        data.forEach(location => {
+            const {longitude, latitude} = location
+            L.marker([latitude, longitude]).addTo(map);
+        });
+    })
