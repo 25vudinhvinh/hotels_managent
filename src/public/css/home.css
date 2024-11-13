@@ -13,9 +13,14 @@ html {
   font-size: 62.5%;
 }
 
-.header {
+header {
   height: 60px;
   background-color: red;
 }
 
-/*# sourceMappingURL=app.css.map */
+#map {
+  height: 650px;
+  width: 100%;
+}
+
+/*# sourceMappingURL=home.css.map */

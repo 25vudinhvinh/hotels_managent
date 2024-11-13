@@ -12,7 +12,12 @@ html{
   font-style: normal;
   font-size: 62.5%;
 }
-.header {
+header {
   height: 60px;
   background-color: red;
+}
+
+#map{
+  height: 650px;
+  width: 100%;
 }
