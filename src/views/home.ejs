@@ -8,12 +8,25 @@
     <!-- leaflet -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://kit.fontawesome.com/27e7665bdf.js" crossorigin="anonymous"></script>
 </head>
 <body>
-   <header>
+    <div class="wrapper">
+        <header>
+            <div class="logo">
+                <img src="img/logo.png" alt="logo" style=" width: 100%; font-size: 10px;">
+            </div>
+            <div class="header-btn">
+                <i class="fa-solid fa-house"></i>
+            </div>
 
-   </header>
-    <div id="map"></div> 
+            <div class="header-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </header>
+         <div id="map"></div> 
+    </div>
+  
     <script src="/scripts/map.js"></script>
 </body>
 </html>

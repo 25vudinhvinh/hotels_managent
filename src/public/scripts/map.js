@@ -1,8 +1,13 @@
- // Khởi tạo bản đồ
- const map = L.map('map').setView([21.0550448,105.7400093], 20); 
+const map = L.map('map',{
+    zoomControl: false
+}).setView([21.0550448, 105.7400093], 15); // Đặt vị trí và độ zoom ban đầu
 
- // Thêm lớp bản đồ
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-     maxZoom: 19,
-     attribution: '© OpenStreetMap'
- }).addTo(map);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+L.control.zoom({
+    position: 'bottomright' // Vị trí dưới cùng bên phải
+}).addTo(map);
