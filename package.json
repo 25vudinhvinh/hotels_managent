@@ -1,0 +1,22 @@
+{
+  "name": "hotels_managent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/25vudinhvinh/hotels_managent.git"
+  },
+  "author": "VDV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/25vudinhvinh/hotels_managent/issues"
+  },
+  "homepage": "https://github.com/25vudinhvinh/hotels_managent#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
