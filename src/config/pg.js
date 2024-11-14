@@ -10,7 +10,7 @@ const pg = new Client({
 pg.connect()
 
 async function getCoordinates() {
-    const query = 'SELECT longitude, latitude FROM hotels'
+    const query = 'SELECT * FROM hotels'
     const result = await pg.query(query)
     return result.rows
   }

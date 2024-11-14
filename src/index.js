@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+// api cho location
 app.get('/api', async(req, res) =>{
 	try{
 		const coordinates = await getCoordinates()

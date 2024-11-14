@@ -15,7 +15,6 @@ html {
 
 header {
   width: 65px;
-  box-shadow: 0 0;
   display: flex;
   flex-direction: column;
 }
@@ -50,6 +49,88 @@ header {
 
 .wrapper {
   display: flex;
+}
+
+.popup-heading {
+  min-width: 120px;
+  display: block;
+  height: 40px;
+  font-weight: 700;
+  font-size: 23px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.popup-image {
+  margin-left: -21px;
+  width: 347px;
+  height: 200px;
+  overflow: hidden;
+  object-fit: contain;
+  user-select: none;
+}
+
+.popup-star-name {
+  margin-top: 20px;
+}
+.popup-star-name h4 {
+  line-height: 10px;
+}
+.popup-star-name p {
+  font-size: 12px;
+  line-height: 0;
+  color: #707579;
+}
+
+.popup-infor {
+  margin-top: 30px;
+}
+.popup-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.popup-infor-hotel {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.popup-infor-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+.popup-infor-icon span {
+  display: block;
+  margin-right: 280px;
+}
+
+.popup-infor-total {
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.popup-desc {
+  margin-top: 10px;
+}
+
+.popup-service-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.popup-service {
+  color: #707579;
+  margin-top: 10px;
+  display: flex;
+  margin-right: 10px;
+}
+
+.popup-service-icon {
+  margin-right: 5px;
 }
 
 /*# sourceMappingURL=home.css.map */
