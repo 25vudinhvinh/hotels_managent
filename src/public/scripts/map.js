@@ -1,6 +1,6 @@
 const map = L.map('map',{
     zoomControl: false
-}).setView([21.0550448, 105.7400093], 10); // Đặt vị trí và độ zoom ban đầu
+}).setView([21.0550448, 105.7400093], 12); 
 
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -22,7 +22,7 @@ fetch('/api')
             const longitude = hotels.longitude
             const marker = L.marker([latitude, longitude]).addTo(map);
 
-
+            // popup marker
             const popupContent = `
                 <div class="popup-content">
                 <span class="popup-heading">${hotels.name}</span>

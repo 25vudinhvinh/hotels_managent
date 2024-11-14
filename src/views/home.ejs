@@ -25,6 +25,47 @@
             </div>
         </header>
          <div id="map"></div> 
+
+
+         <!-- search popup -->
+          <div class="search-wrap">
+            <!-- header search -->
+            <div class="head-section">
+                <h4>Tìm Kiếm</h4>
+                <div class="header-input">
+                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="text" placeholder="Nhập tên khách sạn">
+                </div>
+
+                <div class="header-options">
+                    <span>
+                        <i class="fa-solid fa-filter"></i>
+                        Bộ Lọc
+                    </span>
+                    <button>Gần Bạn</button>
+                    <form action="">
+                        <select name="star" id="star">
+                            <option selected disabled>Hạng Sao</option>
+                            <option value="1">1 Sao</option>
+                            <option value="2">2 Sao</option>
+                            <option value="3">3 Sao</option>
+                            <option value="4">4 Sao</option>
+                            <option value="5">5 Sao</option>
+                        </select>
+                    </form>
+
+                    <form action="">
+                        <select name="price" id="price">
+                            <option selected disabled>Giá</option>
+                            <option value="500.000">Dưới 500 Nghìn</option>
+                            <option value="1.000.000">Dưới 1 Triệu</option>
+                            <option value="2.000.000">Dưới 2 Triệu</option>
+                        </select>
+                    </form>
+                    <button>Xóa Bộ Lọc</button>
+                </div>
+            </div>
+          </div>
     </div>
   
     <script src="/scripts/map.js"></script>
