@@ -14,10 +14,11 @@ html {
 }
 
 header {
+  background-color: #fff;
   width: 65px;
   display: flex;
   flex-direction: column;
-  z-index: 2;
+  z-index: 5;
 }
 
 .logo {
@@ -68,8 +69,10 @@ header {
   width: 347px;
   height: 200px;
   overflow: hidden;
-  object-fit: contain;
-  user-select: none;
+}
+.popup-image img {
+  width: 100%;
+  height: 100%;
 }
 
 .popup-star-name {
@@ -146,8 +149,9 @@ header {
   bottom: 0;
   top: 0;
   left: 60px;
-  z-index: 3;
+  z-index: 2;
   padding: 30px 20px;
+  animation: fadeOut 0.3s linear;
 }
 .search-wrap h4 {
   font-size: 18px;
@@ -201,6 +205,55 @@ header {
   cursor: pointer;
   background-color: #000;
   color: #fff;
+}
+
+@keyframes fadeOut {
+  from {
+    transform: translateX(-300px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.body-section {
+  margin: 0 -19px;
+  height: 112%;
+  overflow-y: auto;
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.search-infor-hotel {
+  padding: 0 19px;
+  margin-bottom: 10px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.search-infor-hotel:hover {
+  background-color: black;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.search-infor-total {
+  white-space: wrap;
+  flex: 1;
+}
+
+.search-infor-img {
+  width: 81px;
+  height: 81px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.search-infor-img img {
+  width: 100%;
+  height: 100%;
 }
 
 /*# sourceMappingURL=home.css.map */
