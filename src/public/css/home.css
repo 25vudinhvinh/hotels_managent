@@ -34,11 +34,16 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  border-radius: 5px;
   margin-top: 10px;
+  border-radius: 10px;
 }
 .header-btn:hover {
+  background-color: #000;
+  cursor: pointer;
+  color: #fff;
+}
+
+.header-btn-search.hover {
   background-color: #000;
   cursor: pointer;
   color: #fff;
@@ -142,7 +147,7 @@ header {
 }
 
 .search-wrap {
-  display: block;
+  display: none;
   width: 300px;
   background-color: #ECF0F8;
   position: fixed;

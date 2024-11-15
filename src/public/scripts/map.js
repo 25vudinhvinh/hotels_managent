@@ -107,7 +107,6 @@ fetchData()
     
 // seach-body
 function showBodySearch(data){
-    console.log(data)
     const bodySearch = document.querySelector('.body-section')
     if(bodySearch){
         data.forEach(hotel => {
@@ -132,3 +131,23 @@ function showBodySearch(data){
         })
     }
 }
+
+// toggle search
+const toggleSearchBtn = ()=>{
+    const headerBtn = document.querySelector('.header-btn-search')
+    const searchWrap = document.querySelector('.search-wrap')
+    let toggle = true
+    headerBtn.classList.toggle('hover')
+    if( searchWrap.style.display==='block'){
+        searchWrap.style.display='none'
+    }else{
+        searchWrap.style.display='block'
+    } 
+}   
+
+const homeRefest = ()=>{
+    const homeBtn = document.querySelector('.header-btn-home')
+    if(homeBtn){
+     location.reload()
+    }
+} 
