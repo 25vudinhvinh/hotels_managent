@@ -13,7 +13,7 @@ L.control.zoom({
 }).addTo(map);
 
 
-// Hàm fetch dữ liệu từ API
+// fetch data from API
 function fetchData() {
         return fetch('/api')
             .then(res => 
@@ -27,7 +27,13 @@ function fetchData() {
             });
 }
 
-// Hàm xử lý dữ liệu và hiển thị trên bản đồ
+fetchData()
+    .then(data => {
+        displayMarkers(data);
+        showHotelSearch(data);
+    });
+
+// show popup infor hotel on marker
 function displayMarkers(data) {
     data.forEach(hotel => {
         const latitude = hotel.latitude;
@@ -95,11 +101,6 @@ function displayMarkers(data) {
 }
 
 
-fetchData()
-    .then(data => {
-        displayMarkers(data);
-        showHotelSearch(data);
-    });
 
     
 // seach-body
@@ -110,12 +111,15 @@ function showHotelSearch(data){
             const searchHotelInfor = document.createElement('div')
                 bodySearch.appendChild(searchHotelInfor)
                 searchHotelInfor.className = 'search-infor-hotel'
-                searchHotelInfor.setAttribute('data-name', hotel.name)
+                searchHotelInfor.setAttribute('data-name', hotel.name);
+                searchHotelInfor.setAttribute('data-lat', hotel.latitude);
+                searchHotelInfor.setAttribute('data-lng', hotel.longitude);
                 searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
                     <h4>${hotel.name}</h4>
                     <p>Khách sạn ${hotel.star} sao</p>
                     <p>${hotel.price}</p>
+                    <p class="text-distance"></p>
                     </div>
                     <div class="search-infor-img">
                     <img src="${hotel.image}" alt="hinh anh" onerror="this.onerror=null; this.src='/img/default-img.jpg';"/>
@@ -138,6 +142,7 @@ const toggleSearchBtn = ()=>{
     } 
 }   
 
+// reload when click home
 const homeRefest = ()=>{
     const homeBtn = document.querySelector('.header-btn-home')
     if(homeBtn){
@@ -146,11 +151,11 @@ const homeRefest = ()=>{
 } 
 
 // input search 
-// xu li va hien thi ket qua khi tim kiem
+// handle and show search result
 function handleSearchResult(){
-    const inputSearch = document.querySelector('#search-input')
-    const searchTerm = inputSearch.value.toLowerCase()
     const hotels = document.querySelectorAll('.search-infor-hotel')
+    const inputSearch = document.querySelector('#search-input')
+    const searchTerm = removeAccents(inputSearch.value.toLowerCase())
     hotels.forEach(hotel =>{
         const hotelName = removeAccents(hotel.getAttribute('data-name').toLowerCase())
         if(hotelName.includes(searchTerm)){
@@ -162,7 +167,7 @@ function handleSearchResult(){
 }
 
 
-// ham loai bo dau khi tiem kiem ten khach san
+// remove accents for search and hotel name
 function removeAccents(str) {
     var AccentsMap = [
       "aàảãáạăằẳẵắặâầẩẫấậ",
@@ -186,3 +191,37 @@ function removeAccents(str) {
     }
     return str;
   }
+
+
+
+// Calculate distance to hotel
+function calculateDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371; 
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLng = (lng2 - lng1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; //km
+  }
+
+function findNearbyHotels(){
+    const nearbyBtn = document.querySelector('#nearby-btn')
+    if(nearbyBtn){
+        navigator.geolocation.getCurrentPosition(position => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            document.querySelectorAll('.search-infor-hotel').forEach(hotel =>{
+                const hotelLat = parseFloat(hotel.getAttribute('data-lat'))
+                const hotelLng = parseFloat(hotel.getAttribute('data-lng'))
+                const distance = (calculateDistance(userLat, userLng, hotelLat, hotelLng)).toFixed(2)
+                if(distance < 3){
+                    hotel.style.display = ''
+                }else{
+                    hotel.style.display = 'none'
+                }
+            })
+        })
+}}
