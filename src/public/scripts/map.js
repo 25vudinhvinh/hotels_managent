@@ -1,6 +1,3 @@
-let fetchedData = null; 
-
-
 const map = L.map('map',{
     zoomControl: false
 }).setView([21.0550448, 105.7400093], 12); 
@@ -101,19 +98,19 @@ function displayMarkers(data) {
 fetchData()
     .then(data => {
         displayMarkers(data);
-        showBodySearch(data);
+        showHotelSearch(data);
     });
 
     
 // seach-body
-function showBodySearch(data){
+function showHotelSearch(data){
     const bodySearch = document.querySelector('.body-section')
     if(bodySearch){
         data.forEach(hotel => {
             const searchHotelInfor = document.createElement('div')
-            if(searchHotelInfor){
                 bodySearch.appendChild(searchHotelInfor)
                 searchHotelInfor.className = 'search-infor-hotel'
+                searchHotelInfor.setAttribute('data-name', hotel.name)
                 searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
                     <h4>${hotel.name}</h4>
@@ -124,10 +121,6 @@ function showBodySearch(data){
                     <img src="${hotel.image}" alt="hinh anh" onerror="this.onerror=null; this.src='/img/default-img.jpg';"/>
                     </div>
                 `
-            }else{
-                console.log('loi')
-            }
-
         })
     }
 }
@@ -151,3 +144,45 @@ const homeRefest = ()=>{
      location.reload()
     }
 } 
+
+// input search 
+// xu li va hien thi ket qua khi tim kiem
+function handleSearchResult(){
+    const inputSearch = document.querySelector('#search-input')
+    const searchTerm = inputSearch.value.toLowerCase()
+    const hotels = document.querySelectorAll('.search-infor-hotel')
+    hotels.forEach(hotel =>{
+        const hotelName = removeAccents(hotel.getAttribute('data-name').toLowerCase())
+        if(hotelName.includes(searchTerm)){
+            hotel.style.display = ''
+        }else{
+            hotel.style.display = 'none'
+        }
+    })
+}
+
+
+// ham loai bo dau khi tiem kiem ten khach san
+function removeAccents(str) {
+    var AccentsMap = [
+      "aàảãáạăằẳẵắặâầẩẫấậ",
+      "AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬ",
+      "dđ", "DĐ",
+      "eèẻẽéẹêềểễếệ",
+      "EÈẺẼÉẸÊỀỂỄẾỆ",
+      "iìỉĩíị",
+      "IÌỈĨÍỊ",
+      "oòỏõóọôồổỗốộơờởỡớợ",
+      "OÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢ",
+      "uùủũúụưừửữứự",
+      "UÙỦŨÚỤƯỪỬỮỨỰ",
+      "yỳỷỹýỵ",
+      "YỲỶỸÝỴ"    
+    ];
+    for (var i=0; i<AccentsMap.length; i++) {
+      var re = new RegExp('[' + AccentsMap[i].substr(1) + ']', 'g');
+      var char = AccentsMap[i][0];
+      str = str.replace(re, char);
+    }
+    return str;
+  }

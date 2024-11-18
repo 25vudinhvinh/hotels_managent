@@ -241,10 +241,11 @@ header {
 // search section 2
 .body-section{
   margin: 0 -19px;
-  height: 112%;
+  height: 490px;
   overflow-y: auto;
   margin-top: 10px;
   border-bottom: 1px solid rgba($color: #000000, $alpha: 0.3);
+  border-top: 1px solid rgba($color: #000000, $alpha: 0.3);
 }
 
 .search-infor-hotel{

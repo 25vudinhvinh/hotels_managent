@@ -224,10 +224,11 @@ header {
 }
 .body-section {
   margin: 0 -19px;
-  height: 112%;
+  height: 490px;
   overflow-y: auto;
   margin-top: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .search-infor-hotel {
