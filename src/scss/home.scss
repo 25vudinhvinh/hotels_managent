@@ -248,6 +248,10 @@ header {
   border-top: 1px solid rgba($color: #000000, $alpha: 0.3);
 }
 
+.text-distance{
+  color: red;
+}
+
 .search-infor-hotel{
   padding: 0 19px;
   margin-bottom:10px ;
@@ -277,3 +281,12 @@ header {
     height: 100%;
   }
 }
+
+// button search
+#nearby-btn{
+    &.active{
+      background-color: #000;
+      color: #fff;
+    }
+  }
+

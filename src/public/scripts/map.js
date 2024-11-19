@@ -70,7 +70,7 @@ function displayMarkers(data) {
                 </div>
                 <div class="popup-infor-hotel">
                     <div class="popup-infor-icon"><i class="fa-solid fa-tag"></i></div>
-                    <div class="popup-infor-total">${hotel.price}</div>
+                    <div class="popup-infor-total">${hotel.price}đ</div>
                 </div>
             </div>
             <div class="popup-desc">
@@ -107,18 +107,18 @@ function displayMarkers(data) {
 function showHotelSearch(data){
     const bodySearch = document.querySelector('.body-section')
     if(bodySearch){
-        data.forEach(hotel => {
+          data.forEach(hotel => {
             const searchHotelInfor = document.createElement('div')
                 bodySearch.appendChild(searchHotelInfor)
                 searchHotelInfor.className = 'search-infor-hotel'
                 searchHotelInfor.setAttribute('data-name', hotel.name);
                 searchHotelInfor.setAttribute('data-lat', hotel.latitude);
                 searchHotelInfor.setAttribute('data-lng', hotel.longitude);
-                searchHotelInfor.innerHTML = `
+                  searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
                     <h4>${hotel.name}</h4>
                     <p>Khách sạn ${hotel.star} sao</p>
-                    <p>${hotel.price}</p>
+                    <p>${hotel.price}đ</p>
                     <p class="text-distance"></p>
                     </div>
                     <div class="search-infor-img">
@@ -153,9 +153,10 @@ const homeRefest = ()=>{
 // input search 
 // handle and show search result
 function handleSearchResult(){
+    deleteFilter()
     const hotels = document.querySelectorAll('.search-infor-hotel')
     const inputSearch = document.querySelector('#search-input')
-    const searchTerm = removeAccents(inputSearch.value.toLowerCase())
+    const searchTerm = removeAccents(inputSearch.value.toLowerCase().trim())
     hotels.forEach(hotel =>{
         const hotelName = removeAccents(hotel.getAttribute('data-name').toLowerCase())
         if(hotelName.includes(searchTerm)){
@@ -207,8 +208,9 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
     return R * c; //km
   }
 
+const nearbyBtn = document.querySelector('#nearby-btn')
 function findNearbyHotels(){
-    const nearbyBtn = document.querySelector('#nearby-btn')
+    nearbyBtn.classList.add('active')
     if(nearbyBtn){
         navigator.geolocation.getCurrentPosition(position => {
             const userLat = position.coords.latitude;
@@ -217,6 +219,8 @@ function findNearbyHotels(){
                 const hotelLat = parseFloat(hotel.getAttribute('data-lat'))
                 const hotelLng = parseFloat(hotel.getAttribute('data-lng'))
                 const distance = (calculateDistance(userLat, userLng, hotelLat, hotelLng)).toFixed(2)
+                const textDistance = hotel.querySelector('.text-distance')
+                textDistance.innerText = `Cách bạn ${distance}km`
                 if(distance < 3){
                     hotel.style.display = ''
                 }else{
@@ -225,3 +229,23 @@ function findNearbyHotels(){
             })
         })
 }}
+
+
+// delete filter
+function deleteFilter(){
+    const deleteFilter = document.querySelector('#delete-filter-btn')
+    if(deleteFilter){
+        removeNearBy()
+    }
+}
+
+// remove nearby button
+function removeNearBy(){
+        nearbyBtn.classList.remove('active')
+        document.querySelectorAll('.search-infor-hotel').forEach(hotel =>{
+            hotel.style.display = ''
+             const textDistance = hotel.querySelector('.text-distance')
+                textDistance.innerText = ''
+        })
+
+}
