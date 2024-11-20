@@ -1,3 +1,7 @@
+const hotelsFilterNear = []
+let hotelsFilterStar = []
+let hotelsFilterPrice = []
+
 const map = L.map('map',{
     zoomControl: false
 }).setView([21.0550448, 105.7400093], 12); 
@@ -103,7 +107,7 @@ function displayMarkers(data) {
 
 
     
-// seach-body
+// seach-body and set attribute 
 function showHotelSearch(data){
     const bodySearch = document.querySelector('.body-section')
     if(bodySearch){
@@ -114,6 +118,8 @@ function showHotelSearch(data){
                 searchHotelInfor.setAttribute('data-name', hotel.name);
                 searchHotelInfor.setAttribute('data-lat', hotel.latitude);
                 searchHotelInfor.setAttribute('data-lng', hotel.longitude);
+                searchHotelInfor.setAttribute('data-star', hotel.star);
+                searchHotelInfor.setAttribute('data-price', hotel.price);
                   searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
                     <h4>${hotel.name}</h4>
@@ -129,11 +135,10 @@ function showHotelSearch(data){
     }
 }
 
-// toggle search
+// toggle search box
 const toggleSearchBtn = ()=>{
     const headerBtn = document.querySelector('.header-btn-search')
     const searchWrap = document.querySelector('.search-wrap')
-    let toggle = true
     headerBtn.classList.toggle('hover')
     if( searchWrap.style.display==='block'){
         searchWrap.style.display='none'
@@ -208,6 +213,7 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
     return R * c; //km
   }
 
+//   find nearby hotel
 const nearbyBtn = document.querySelector('#nearby-btn')
 function findNearbyHotels(){
     nearbyBtn.classList.add('active')
@@ -215,13 +221,15 @@ function findNearbyHotels(){
         navigator.geolocation.getCurrentPosition(position => {
             const userLat = position.coords.latitude;
             const userLng = position.coords.longitude;
-            document.querySelectorAll('.search-infor-hotel').forEach(hotel =>{
+            const hotelToUse = hotelsFilterNear.length > 0 ? hotelsFilterNear : Array.from(document.querySelectorAll('.search-infor-hotel'))
+            hotelToUse.forEach(hotel =>{
                 const hotelLat = parseFloat(hotel.getAttribute('data-lat'))
                 const hotelLng = parseFloat(hotel.getAttribute('data-lng'))
                 const distance = (calculateDistance(userLat, userLng, hotelLat, hotelLng)).toFixed(2)
-                const textDistance = hotel.querySelector('.text-distance')
-                textDistance.innerText = `Cách bạn ${distance}km`
                 if(distance < 3){
+                    const textDistance = hotel.querySelector('.text-distance')
+                    textDistance.innerText = `Cách bạn ${distance}km`
+                    hotelsFilterNear.push(hotel)
                     hotel.style.display = ''
                 }else{
                     hotel.style.display = 'none'
@@ -230,12 +238,47 @@ function findNearbyHotels(){
         })
 }}
 
+console.log(hotelsFilterNear)
+// bug gan ban > sao > succc || sao > gan ban > erorr mai fix
+// function filter star
+function filterStar(){
+    const starSelect = document.querySelector('#star')
+    const starChecked = starSelect.value
+    const hotelToUse = hotelsFilterNear.length > 0 ? hotelsFilterNear : Array.from(document.querySelectorAll('.search-infor-hotel'))
+    hotelToUse.forEach(hotel =>{
+        const hotelStar = hotel.getAttribute('data-star')
+        if(starChecked == hotelStar){
+            hotel.style.display = ''
+        }else{
+            hotel.style.display = 'none'
+        }
+    })
+}
+
+// function find price 
+function findPriceHotels(){
+    const priceSelect = document.querySelector('#price')
+    const priceChecked = priceSelect.value
+    const hotelToUse = hotelsFilterNear.length > 0 ? hotelsFilterNear : Array.from(document.querySelectorAll('.search-infor-hotel'))
+    hotelToUse.forEach(hotel =>{
+        const hotelPrice = parseFloat(hotel.getAttribute('data-price')) 
+       if(priceChecked === 'below-1m'){
+        hotel.style.display = hotelPrice < 1000000 ? '' : 'none'
+       }else if (priceChecked === 'above-1m'){
+        hotel.style.display = hotelPrice > 1000000 ? '' : 'none'
+       }else{
+        hotel.style.display = ''
+       }
+
+    })
+}
 
 // delete filter
 function deleteFilter(){
     const deleteFilter = document.querySelector('#delete-filter-btn')
     if(deleteFilter){
         removeNearBy()
+        enableSelect()
     }
 }
 
@@ -247,5 +290,13 @@ function removeNearBy(){
              const textDistance = hotel.querySelector('.text-distance')
                 textDistance.innerText = ''
         })
+}
 
+
+// undisable select 
+function enableSelect(){
+    const selectAll = document.querySelectorAll('select')
+    selectAll.forEach(select =>{
+        select.selectedIndex = 0
+    })
 }

@@ -43,7 +43,7 @@
                         Bộ Lọc
                     </span>
                     <button id="nearby-btn" onclick="findNearbyHotels()">Gần Bạn</button>
-                    <form action="">
+                    <form action="" onchange="filterStar()">
                         <select name="star" id="star">
                             <option selected disabled>Hạng Sao</option>
                             <option value="1">1 Sao</option>
@@ -54,12 +54,11 @@
                         </select>
                     </form>
 
-                    <form action="">
+                    <form action="" onchange="findPriceHotels()">
                         <select name="price" id="price">
                             <option selected disabled>Giá</option>
-                            <option value="500.000">Dưới 500 Nghìn</option>
-                            <option value="1.000.000">Dưới 1 Triệu</option>
-                            <option value="1.000.000">Trên 1 Triệu</option>
+                            <option value="below-1m">Dưới 1 Triệu</option>
+                            <option value="above-1m">Trên 1 Triệu</option>
                         </select>
                     </form>
                     <button onclick="deleteFilter()" id="delete-filter-btn">Xóa Bộ Lọc</button>
