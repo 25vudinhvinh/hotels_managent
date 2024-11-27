@@ -6,6 +6,29 @@
   font-weight: 400;
 }
 
+.container {
+  flex: 1;
+  position: relative;
+}
+
+.user-location {
+  position: absolute;
+  right: 10px;
+  bottom: 90px;
+  border-radius: 10px;
+  font-size: 22px;
+  padding: 4px;
+  z-index: 1;
+  border: 1px solid transparent;
+  background-color: #fff;
+  color: #666666;
+  cursor: pointer;
+  box-shadow: 0 0px 4px rgba(60, 64, 67, 0.3);
+}
+.user-location:hover {
+  color: #000000;
+}
+
 html {
   font-family: "Inter", serif;
   font-optical-sizing: auto;
@@ -47,6 +70,10 @@ header {
   background-color: #000;
   cursor: pointer;
   color: #fff;
+}
+
+.login {
+  margin-top: 380px;
 }
 
 #map {
@@ -93,7 +120,7 @@ header {
 }
 
 .popup-infor {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 .popup-title {
   font-weight: 700;
@@ -269,6 +296,20 @@ header {
 #nearby-btn.active {
   background-color: #000;
   color: #fff;
+}
+
+#direction {
+  color: #fff;
+  font-size: 14px;
+  padding: 6px;
+  background-color: #000;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+#direction:hover {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=home.css.map */

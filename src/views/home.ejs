@@ -9,6 +9,14 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://kit.fontawesome.com/27e7665bdf.js" crossorigin="anonymous"></script>
+    <link 
+  rel="stylesheet" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" 
+/>
+<script 
+  src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js">
+</script>
+
 </head>
 <body>
     <div class="wrapper">
@@ -23,10 +31,17 @@
             <div class="header-btn header-btn-search" onclick="toggleSearchBtn()">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
+
+            <div class="login header-btn">
+                <i class="fa-solid fa-user"></i>
+            </div>
         </header>
-         <div id="map"></div> 
-
-
+        <div class="container">
+            <div id="map"></div> 
+            <button class="user-location" onclick="setViewUserLocation()">
+                <i class="fa-solid fa-location-crosshairs"></i>
+            </button>
+        </div>
          <!-- search popup -->
           <div class="search-wrap">
             <!-- search section 1-->
@@ -69,8 +84,8 @@
                 
             </div>
           </div>
-    </div>
-  
+        </div>
+        
     <script src="/scripts/map.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "sass": "sass --watch src/scss/home.scss:src/public/css/home.css",
+    "sass": "sass --watch src/scss/home.scss:src/public/css/home.css src/scss/login.scss:src/public/css/login.css",
     "start": "nodemon --inspect src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

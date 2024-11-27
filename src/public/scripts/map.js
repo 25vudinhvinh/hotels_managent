@@ -1,11 +1,32 @@
 const hotelsFilterNear = []
-let hotelsFilterStar = []
-let hotelsFilterPrice = []
+const markers = {}
+
+const myIcon = L.icon({
+    iconUrl: 'img/custom-icon.svg',
+    iconSize: [38, 95],
+    iconAnchor: [19, 95],
+    popupAnchor: [0, 0],
+    shadowSize: [68, 95],
+    shadowAnchor: [34, 95]
+})
 
 const map = L.map('map',{
     zoomControl: false
-}).setView([21.0550448, 105.7400093], 12); 
+}) 
 
+map.setView([21.06150053899966, 105.80904948088516], 10); 
+
+
+
+// set view when click 
+function setViewUserLocation(){
+    navigator.geolocation.getCurrentPosition(position => {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+        map.setView([userLat, userLng], 16); 
+        L.marker([userLat, userLng], {icon: myIcon}).addTo(map)
+    })
+}
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -40,8 +61,8 @@ fetchData()
 // show popup infor hotel on marker
 function displayMarkers(data) {
     data.forEach(hotel => {
-        const latitude = hotel.latitude;
-        const longitude = hotel.longitude;
+        const latitude = parseFloat(hotel.latitude)
+        const longitude = parseFloat(hotel.longitude)
         const marker = L.marker([latitude, longitude]).addTo(map);
         // popup marker
         const popupContent = `
@@ -53,6 +74,7 @@ function displayMarkers(data) {
             <div class="popup-star-name">
                 <h4 class="popup-title">${hotel.name}</h4>
                 <p>Khách sạn ${hotel.star} sao</p>
+                <button onclick="showDirectToHotel(${latitude}, ${longitude})" id="direction"><i class="fa-solid fa-diamond-turn-right"></i> Đường đi</button>
             </div>
             <div class="popup-infor">
                 <h4 class="popup-title">Thông tin</h4>
@@ -101,6 +123,7 @@ function displayMarkers(data) {
         </div>
         `;
         marker.bindPopup(popupContent);
+        markers[String(hotel.hotel_id)] = marker;
     });
 }
 
@@ -120,6 +143,13 @@ function showHotelSearch(data){
                 searchHotelInfor.setAttribute('data-lng', hotel.longitude);
                 searchHotelInfor.setAttribute('data-star', hotel.star);
                 searchHotelInfor.setAttribute('data-price', hotel.price);
+                searchHotelInfor.setAttribute('hotel-id', hotel.hotel_id);
+                // show popup whin click hotel
+                searchHotelInfor.addEventListener('click', ()=>{
+                    const hotelId = searchHotelInfor.getAttribute('hotel-id')
+                    map.setView([hotel.latitude,hotel.longitude], 20)
+                    markers[hotelId].openPopup();
+                })
                   searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
                     <h4>${hotel.name}</h4>
@@ -226,7 +256,7 @@ function findNearbyHotels(){
                 const hotelLat = parseFloat(hotel.getAttribute('data-lat'))
                 const hotelLng = parseFloat(hotel.getAttribute('data-lng'))
                 const distance = (calculateDistance(userLat, userLng, hotelLat, hotelLng)).toFixed(2)
-                if(distance < 3){
+                if(distance < 10){
                     const textDistance = hotel.querySelector('.text-distance')
                     textDistance.innerText = `Cách bạn ${distance}km`
                     hotelsFilterNear.push(hotel)
@@ -238,8 +268,7 @@ function findNearbyHotels(){
         })
 }}
 
-console.log(hotelsFilterNear)
-// bug gan ban > sao > succc || sao > gan ban > erorr mai fix
+
 // function filter star
 function filterStar(){
     const starSelect = document.querySelector('#star')
@@ -277,6 +306,7 @@ function findPriceHotels(){
 function deleteFilter(){
     const deleteFilter = document.querySelector('#delete-filter-btn')
     if(deleteFilter){
+        
         removeNearBy()
         enableSelect()
     }
@@ -286,9 +316,10 @@ function deleteFilter(){
 function removeNearBy(){
         nearbyBtn.classList.remove('active')
         document.querySelectorAll('.search-infor-hotel').forEach(hotel =>{
+            hotelsFilterNear.push(hotel)
             hotel.style.display = ''
-             const textDistance = hotel.querySelector('.text-distance')
-                textDistance.innerText = ''
+            const textDistance = hotel.querySelector('.text-distance')
+            textDistance.innerText = ''
         })
 }
 
@@ -299,4 +330,34 @@ function enableSelect(){
     selectAll.forEach(select =>{
         select.selectedIndex = 0
     })
+}
+
+
+// routing
+function showDirectToHotel(endLat, endLng) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const startLat = position.coords.latitude;
+                const startLng = position.coords.longitude;
+
+               const controlRouter = L.Routing.control({
+                    waypoints: [
+                        L.latLng(startLat, startLng), 
+                        L.latLng(endLat, endLng)    
+                    ],
+                    routeWhileDragging: true,
+                    showAlternatives: true,
+                    createMarker: function(i, waypoint) {
+                        return L.marker(waypoint.latLng, {
+                            icon: i === 0 ? startMarkerIcon : endMarkerIcon
+                        });
+                    }
+                }).addTo(map); 
+                map.setView([startLat, startLng], 14);
+                console.log(controlRouter)
+            },
+            (error) => {
+                alert("Không thể lấy vị trí của bạn: " + error.message);
+            }
+        );
 }
