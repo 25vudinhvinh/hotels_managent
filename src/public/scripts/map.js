@@ -3,11 +3,7 @@ const markers = {}
 
 const myIcon = L.icon({
     iconUrl: 'img/custom-icon.svg',
-    iconSize: [38, 95],
-    iconAnchor: [19, 95],
-    popupAnchor: [0, 0],
-    shadowSize: [68, 95],
-    shadowAnchor: [34, 95]
+    iconSize: [50, 95],
 })
 
 const map = L.map('map',{
@@ -23,7 +19,7 @@ function setViewUserLocation(){
     navigator.geolocation.getCurrentPosition(position => {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
-        map.setView([userLat, userLng], 16); 
+        map.flyTo([userLat, userLng], 16); 
         L.marker([userLat, userLng], {icon: myIcon}).addTo(map)
     })
 }
@@ -40,7 +36,8 @@ L.control.zoom({
 
 // fetch data from API
 function fetchData() {
-        return fetch('/api')
+    // loi sua thanh api
+        return fetch('/hotelandservice')
             .then(res => 
                 res.json())
             .then(data => { 
@@ -64,15 +61,23 @@ function displayMarkers(data) {
         const latitude = parseFloat(hotel.latitude)
         const longitude = parseFloat(hotel.longitude)
         const marker = L.marker([latitude, longitude]).addTo(map);
+
+        // service
+        const servicesHTML = hotel.services.map(service => `
+            <div class="popup-service">
+                <div class="popup-service-icon">${service.service_icon}</div>
+                <div class="popup-service-text">${service.service_name}</div>
+            </div>
+        `).join('')
         // popup marker
         const popupContent = `
         <div class="popup-content">
-            <span class="popup-heading">${hotel.name}</span>
+            <span class="popup-heading">${hotel.hotel_name}</span>
             <div class="popup-image">
                 <img src="${hotel.image}" alt="hinh anh" onerror="this.onerror=null; this.src='/img/default-img.jpg';"/>
             </div>
             <div class="popup-star-name">
-                <h4 class="popup-title">${hotel.name}</h4>
+                <h4 class="popup-title">${hotel.hotel_name}</h4>
                 <p>Khách sạn ${hotel.star} sao</p>
                 <button onclick="showDirectToHotel(${latitude}, ${longitude})" id="direction"><i class="fa-solid fa-diamond-turn-right"></i> Đường đi</button>
             </div>
@@ -101,24 +106,7 @@ function displayMarkers(data) {
             </div>
             <div class="popup-desc">
                 <h4 class="popup-title">Dịch vụ</h4>
-                <div class="popup-service-wrap">
-                    <div class="popup-service">
-                        <div class="popup-service-icon"><i class="fa-solid fa-wifi"></i></div>
-                        <div class="popup-service-text">Wi-Fi miễn phí</div>
-                    </div>
-                    <div class="popup-service">
-                        <div class="popup-service-icon"><i class="fa-solid fa-martini-glass-empty"></i></div>
-                        <div class="popup-service-text">Bữa sáng có tính phí</div>
-                    </div>
-                    <div class="popup-service">
-                        <div class="popup-service-icon"><i class="fa-solid fa-p"></i></div>
-                        <div class="popup-service-text">Đỗ xe miễn phí</div>
-                    </div>
-                    <div class="popup-service">
-                        <div class="popup-service-icon"><i class="fa-solid fa-snowflake"></i></div>
-                        <div class="popup-service-text">Có điều hòa nhiệt độ</div>
-                    </div>
-                </div>
+                <div class="popup-service-wrap">${servicesHTML}</div>
             </div>
         </div>
         `;
@@ -138,7 +126,7 @@ function showHotelSearch(data){
             const searchHotelInfor = document.createElement('div')
                 bodySearch.appendChild(searchHotelInfor)
                 searchHotelInfor.className = 'search-infor-hotel'
-                searchHotelInfor.setAttribute('data-name', hotel.name);
+                searchHotelInfor.setAttribute('data-name', hotel.hotel_name);
                 searchHotelInfor.setAttribute('data-lat', hotel.latitude);
                 searchHotelInfor.setAttribute('data-lng', hotel.longitude);
                 searchHotelInfor.setAttribute('data-star', hotel.star);
@@ -147,12 +135,13 @@ function showHotelSearch(data){
                 // show popup whin click hotel
                 searchHotelInfor.addEventListener('click', ()=>{
                     const hotelId = searchHotelInfor.getAttribute('hotel-id')
-                    map.setView([hotel.latitude,hotel.longitude], 20)
+                    map.flyTo([hotel.latitude,hotel.longitude], 14)
                     markers[hotelId].openPopup();
                 })
                   searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
-                    <h4>${hotel.name}</h4>
+                    <h4>${hotel.hotel_name}</h4>
+                    <p><i class="fa-solid fa-location-dot"></i> ${hotel.quan_huyen}, ${hotel.thanh_pho}</p>
                     <p>Khách sạn ${hotel.star} sao</p>
                     <p>${hotel.price}đ</p>
                     <p class="text-distance"></p>
@@ -335,29 +324,33 @@ function enableSelect(){
 
 // routing
 function showDirectToHotel(endLat, endLng) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const startLat = position.coords.latitude;
-                const startLng = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const startLat = position.coords.latitude;
+        const startLng = position.coords.longitude;
+  
 
-               const controlRouter = L.Routing.control({
-                    waypoints: [
-                        L.latLng(startLat, startLng), 
-                        L.latLng(endLat, endLng)    
-                    ],
-                    routeWhileDragging: true,
-                    showAlternatives: true,
-                    createMarker: function(i, waypoint) {
-                        return L.marker(waypoint.latLng, {
-                            icon: i === 0 ? startMarkerIcon : endMarkerIcon
-                        });
-                    }
-                }).addTo(map); 
-                map.setView([startLat, startLng], 14);
-                console.log(controlRouter)
-            },
-            (error) => {
-                alert("Không thể lấy vị trí của bạn: " + error.message);
-            }
-        );
-}
+        L.marker([startLat, startLng], { icon: myIcon }).addTo(map);
+  
+
+        const controlRouter = L.Routing.control({
+          waypoints: [
+            L.latLng(startLat, startLng),
+            L.latLng(endLat, endLng)
+          ],
+          routeWhileDragging: true,
+          showAlternatives: true,
+          createMarker: function(i, waypoint) {
+            const marker = L.marker(waypoint.latLng, { icon: myIcon }); 
+            marker.bindPopup(`Waypoint ${i + 1}`); 
+            return null;
+          }
+        }).addTo(map);
+
+        map.flyTo([startLat, startLng], 14);
+      },
+      (error) => {
+        alert("Không thể lấy vị trí của bạn: " + error.message);
+      }
+    );
+  }

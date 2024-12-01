@@ -37,53 +37,53 @@
             </div>
         </header>
         <div class="container">
-            <div id="map"></div> 
+            <div id="map"></div>    
             <button class="user-location" onclick="setViewUserLocation()">
                 <i class="fa-solid fa-location-crosshairs"></i>
             </button>
         </div>
-         <!-- search popup -->
-          <div class="search-wrap">
-            <!-- search section 1-->
-            <div class="head-section">
-                <h4>Tìm Kiếm</h4>
-                <div class="header-input">
-                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <input type="text" id="search-input" oninput="handleSearchResult()" placeholder="Nhập tên khách sạn">
-                </div>
+        <!-- search popup -->
+        <div class="search-wrap">
+          <!-- search section 1-->
+          <div class="head-section">
+              <h4>Tìm Kiếm</h4>
+              <div class="header-input">
+                  <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                  <input type="text" id="search-input" oninput="handleSearchResult()" placeholder="Nhập tên khách sạn">
+              </div>
 
-                <div class="header-options">
-                    <span>
-                        <i class="fa-solid fa-filter"></i>
-                        Bộ Lọc
-                    </span>
-                    <button id="nearby-btn" onclick="findNearbyHotels()">Gần Bạn</button>
-                    <form action="" onchange="filterStar()">
-                        <select name="star" id="star">
-                            <option selected disabled>Hạng Sao</option>
-                            <option value="1">1 Sao</option>
-                            <option value="2">2 Sao</option>
-                            <option value="3">3 Sao</option>
-                            <option value="4">4 Sao</option>
-                            <option value="5">5 Sao</option>
-                        </select>
-                    </form>
+              <div class="header-options">
+                  <span>
+                      <i class="fa-solid fa-filter"></i>
+                      Bộ Lọc
+                  </span>
+                  <button id="nearby-btn" onclick="findNearbyHotels()">Gần Bạn</button>
+                  <form action="" onchange="filterStar()">
+                      <select name="star" id="star">
+                          <option selected disabled>Hạng Sao</option>
+                          <option value="1">1 Sao</option>
+                          <option value="2">2 Sao</option>
+                          <option value="3">3 Sao</option>
+                          <option value="4">4 Sao</option>
+                          <option value="5">5 Sao</option>
+                      </select>
+                  </form>
 
-                    <form action="" onchange="findPriceHotels()">
-                        <select name="price" id="price">
-                            <option selected disabled>Giá</option>
-                            <option value="below-1m">Dưới 1 Triệu</option>
-                            <option value="above-1m">Trên 1 Triệu</option>
-                        </select>
-                    </form>
-                    <button onclick="deleteFilter()" id="delete-filter-btn">Xóa Bộ Lọc</button>
-                </div>
-            </div>
-            <!-- search section 2 -->
-            <div class="body-section">
-                
-            </div>
+                  <form action="" onchange="findPriceHotels()">
+                      <select name="price" id="price">
+                          <option selected disabled>Giá</option>
+                          <option value="below-1m">Dưới 1 Triệu</option>
+                          <option value="above-1m">Trên 1 Triệu</option>
+                      </select>
+                  </form>
+                  <button onclick="deleteFilter()" id="delete-filter-btn">Xóa Bộ Lọc</button>
+              </div>
           </div>
+          <!-- search section 2 -->
+          <div class="body-section">
+              
+          </div>
+        </div>
         </div>
         
     <script src="/scripts/map.js"></script>

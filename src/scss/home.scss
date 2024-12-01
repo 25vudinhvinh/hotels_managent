@@ -167,6 +167,8 @@ header {
 }
 
 .popup-service{
+  width: 45%;
+  user-select: none;
   color: #707579;
   margin-top: 10px;
   display: flex;
@@ -278,7 +280,7 @@ header {
 .search-infor-hotel{
   padding: 0 19px;
   margin-bottom:10px ;
-  height: 100px;
+  height: 130px;
   display: flex;
   align-items: center;
   justify-content: space-between;
