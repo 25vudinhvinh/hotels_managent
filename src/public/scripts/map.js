@@ -141,7 +141,7 @@ function showHotelSearch(data){
                   searchHotelInfor.innerHTML = `
                     <div class="search-infor-total">
                     <h4>${hotel.hotel_name}</h4>
-                    <p><i class="fa-solid fa-location-dot"></i> ${hotel.quan_huyen}, ${hotel.thanh_pho}</p>
+                    <p><i class="fa-solid fa-location-dot"></i> ${hotel.district}, ${hotel.city}</p>
                     <p>Khách sạn ${hotel.star} sao</p>
                     <p>${hotel.price}đ</p>
                     <p class="text-distance"></p>

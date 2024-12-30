@@ -4,7 +4,7 @@ const pg = new Client({
     password: 'postgres',
     host: 'localhost',
     port: '5432',
-    database: 'postgres',
+    database: 'hotel_management',
   });
 
 pg.connect()
@@ -17,8 +17,8 @@ pg.connect()
           h.latitude,
           h.longitude,
           h.address,
-          h.quan_huyen,
-          h.thanh_pho,
+          h.district,
+          h.city,
           h.star,
           h.image,
           h.hotel_web,

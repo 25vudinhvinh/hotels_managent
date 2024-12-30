@@ -5,6 +5,12 @@ const path = require('path')
 const pg = require('./config/pg')
 const { getHotelsAndServices} = require('./config/pg')
 
+const authRoutes = require("./routes/authRoutes"); 
+require("dotenv").config();
+
+// Middleware xử lý dữ liệu JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // morgan log 
 const morgan = require('morgan')
@@ -24,6 +30,10 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+app.get('/admin', (req, res) => {
+    res.render('admin');
+});
+
 // api hotel and service
 app.get('/hotelandservice', async(req, res) => {
     try{
@@ -35,6 +45,7 @@ app.get('/hotelandservice', async(req, res) => {
 	}
 })
 
+app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
